@@ -4,15 +4,18 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen(
-      {super.key,
-      this.location = const PlaceLocation(
-        latitude: 37.422,
-        longitude: -122.084,
-        address: '',
-      )});
+  const MapScreen({
+    super.key,
+    this.location = const PlaceLocation(
+      latitude: 37.422,
+      longitude: -122.084,
+      address: '',
+    ),
+    this.isSelecting = true,
+  });
 
   final PlaceLocation location;
+  final bool isSelecting;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -24,7 +27,17 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map'),
+        title:
+            Text(widget.isSelecting ? 'Pick your location' : 'Your Location'),
+        actions: [
+          if (widget.isSelecting)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop(_selectedLocation);
+              },
+              icon: const Icon(Icons.save),
+            )
+        ],
       ),
       body: FlutterMap(
         options: MapOptions(
@@ -33,7 +46,7 @@ class _MapScreenState extends State<MapScreen> {
             widget.location.longitude,
           ),
           zoom: 16,
-          onTap: (tapPosition, point) {
+          onTap: !widget.isSelecting ? null : (tapPosition, point) {
             setState(() {
               _selectedLocation = point;
             });
