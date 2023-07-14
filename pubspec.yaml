@@ -31,8 +31,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_map: ^5.0.0
   flutter_riverpod: ^2.3.6
   google_fonts: ^5.0.0
+  http: ^1.1.0
   image_picker: ^0.8.9
   location: ^4.4.0
   uuid: ^3.0.7
